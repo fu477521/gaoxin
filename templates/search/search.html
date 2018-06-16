@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>高新查寻</title>
+</head>
+<body>
+{% if query %}
+    <h3>搜索结果如下：</h3>
+    {% for result in page.object_list %}
+        <a href="/{{ result.object.id }}/">{{ result.object.company }}</a><br/>
+    {% empty %}
+        <p>啥也没找到</p>
+    {% endfor %}
+
+    <div class="pagenation">
+            {% if page.has_previous %}
+            <a href="/search/?q={{ query }}&amp;page={{ page.previous_page_number }}">上一页</a>
+            {% endif %}
+
+            {% for pindex in paginator.page_range %}
+            {% if pindex == page.number %}
+            <a href="#" class="active">{{ pindex }}</a>
+            {% else %}
+            <a href="/search/?q={{ query }}&amp;page={{ pindex }}">{{ pindex }}</a>
+            {% endif %}
+            {% endfor %}
+
+            {% if page.has_next %}
+            <a href="/search/?q={{ query }}&amp;page={{ page.next_page_number }}">下一页</a>
+            {% endif %}
+    </div>
+{% endif %}
+</body>
+</html>
